@@ -1,0 +1,18 @@
+Packet
+Packet 2133664
+
+Type: Telemetry Beacon
+
+Mission: LS
+
+Software: LS2-v0.94
+
+Hardware: LightSail Flight Unit B
+
+Posted at: Tue Jul  9 00:11:11 2019
+ UTC
+Raw packet contents:
+E021 B186 9849 006B 4971 691E 2430 B55B
+0348 6CB5 F4C9 B899 3A9D AF36 F983
+
+
