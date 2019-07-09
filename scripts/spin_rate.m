@@ -1,3 +1,6 @@
+clear
+close all
+
 [tel_file, path] = uigetfile('*.txt', 'MultiSelect', 'on');
 
 datet_vec = cell(length(tel_file), 1);
@@ -12,9 +15,6 @@ for i = 1:length(tel_file)
     end
     line = fgets(fid);
     if line(1) == 'O'
-        date_str = line(18:end);
-
-        datet_vec{i, 1} = datetime(date_str, 'InputFormat', 'MMM  d HH:m:ss yyyy');
 
         for j = 1:295
             fgets(fid);
@@ -28,6 +28,42 @@ for i = 1:length(tel_file)
 
         gyroz = fgets(fid);
         gyro_vec{i, 3} = str2double(gyroz(38:45));
+        
+        for j = 1:133
+            fgets(fid);
+        end
+        
+        line = fgets(fid);
+        date_str = line(6:15);
+        datet_vec{i, 1} = datetime(str2double(date_str), 'ConvertFrom', 'posixtime');
+        if datet_vec{i, 1} < datetime(2018, 1, 1)
+            datet_vec{i, 1} = datet_vec{i, 1} + seconds(300000000);
+        end
+        
+    else
+        for j = 1:293
+            fgets(fid);
+        end
+        
+        gyrox = fgets(fid);
+        gyro_vec{i, 1} = str2double(gyrox(38:45));
+
+        gyroy = fgets(fid);
+        gyro_vec{i, 2} = str2double(gyroy(38:45));
+
+        gyroz = fgets(fid);
+        gyro_vec{i, 3} = str2double(gyroz(38:45));
+        
+        for j = 1:133
+            fgets(fid);
+        end
+        
+        line = fgets(fid);
+        date_str = line(6:15);
+        datet_vec{i, 1} = datetime(str2double(date_str), 'ConvertFrom', 'posixtime');
+        if datet_vec{i, 1} < datetime(2018, 1, 1)
+            datet_vec{i, 1} = datet_vec{i, 1} + seconds(300000000);
+        end
     end
     
     fclose(fid);
