@@ -1,0 +1,17 @@
+Packet
+Packet 2139894
+
+Type: Telemetry Beacon
+
+Mission: LS
+
+Software: LS2-v0.94
+
+Hardware: LightSail Flight Unit B
+
+Posted at: Wed Jul 10 02:52:11 2019
+ UTC
+Raw packet contents:
+DC2C DA9C 949D
+
+
