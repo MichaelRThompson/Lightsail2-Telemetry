@@ -101,11 +101,20 @@ title('Z Rotation Rate')
 xlabel('Date')
 ylabel('Z Rotation Rate [deg/s]')
 
+Ixx = (1/12)*5*(.113^2 + .34^2);
+Iyy = (1/12)*5*(.113^2 + .34^2);
+Izz = (1/12)*5*(.113^2 + .113^2);
+
 figure
 for i = 1:length(tel_file)
+    Kx = 0.5*Ixx*(gyro_vec{i,1}*pi/180)^2;
+    Ky = 0.5*Iyy*(gyro_vec{i,2}*pi/180)^2;
+    Kz = 0.5*Izz*(gyro_vec{i,3}*pi/180)^2;
+    
     hold on
-    scatter(datet_vec{i,1}, sqrt(gyro_vec{i,1}^2 + gyro_vec{i,2}^2 + gyro_vec{i,3}^2), '.', 'k')
+    scatter(datet_vec{i,1}, Kx + Ky + Kz, '.', 'k')
 end
 hold off
+title('Rotational Energy')
 xlabel('Date')
-ylabel('Rotation Rate Magnitude [deg/s]')
+ylabel('Rotational Energy (J)')
