@@ -10,62 +10,24 @@ for i = 1:length(tel_file)
     
     fid = fopen([path, tel_file{1,i}], 'r');
     
-    for j = 1:11
-        fgets(fid);
-    end
-    line = fgets(fid);
-    if line(1) == 'O'
-
-        for j = 1:295
-            fgets(fid);
-        end
-
-        gyrox = fgets(fid);
-        gyro_vec{i, 1} = str2double(gyrox(38:45));
-
-        gyroy = fgets(fid);
-        gyro_vec{i, 2} = str2double(gyroy(38:45));
-
-        gyroz = fgets(fid);
-        gyro_vec{i, 3} = str2double(gyroz(38:45));
-        
-        for j = 1:133
-            fgets(fid);
-        end
-        
+    while ~feof(fid)
         line = fgets(fid);
-        date_str = line(6:15);
-        datet_vec{i, 1} = datetime(str2double(date_str), 'ConvertFrom', 'posixtime');
-        if datet_vec{i, 1} < datetime(2018, 1, 1)
-            datet_vec{i, 1} = datet_vec{i, 1} + seconds(300000000);
-        end
-        
-    else
-        for j = 1:293
-            fgets(fid);
-        end
-        
-        gyrox = fgets(fid);
-        gyro_vec{i, 1} = str2double(gyrox(38:45));
-
-        gyroy = fgets(fid);
-        gyro_vec{i, 2} = str2double(gyroy(38:45));
-
-        gyroz = fgets(fid);
-        gyro_vec{i, 3} = str2double(gyroz(38:45));
-        
-        for j = 1:133
-            fgets(fid);
-        end
-        
-        line = fgets(fid);
-        date_str = line(6:15);
-        datet_vec{i, 1} = datetime(str2double(date_str), 'ConvertFrom', 'posixtime');
-        if datet_vec{i, 1} < datetime(2018, 1, 1)
-            datet_vec{i, 1} = datet_vec{i, 1} + seconds(300000000);
+        if length(line) > 3
+            if line(1:4) == '290:'
+                gyro_vec{i, 1} = str2double(line(38:45));
+            end
+            if line(1:4) == '291:'
+                gyro_vec{i, 2} = str2double(line(38:45));
+            end
+            if line(1:4) == '292:'
+                gyro_vec{i, 3} = str2double(line(38:45));
+            end
+            if line(1:3) == 'tim'
+                date_str = line(6:15);
+                datet_vec{i, 1} = datetime(str2double(date_str), 'ConvertFrom', 'posixtime');
+            end
         end
     end
-    
     fclose(fid);
 end
 
